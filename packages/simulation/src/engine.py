@@ -64,7 +64,7 @@ class SimulationEngine:
             SimulationResult with time paths of capital, output, consumption
         """
         # Set initial capital
-        k0 = initial_capital or self.model.params.initial_capital
+        k0 = initial_capital if initial_capital is not None else self.model.params.initial_capital
 
         # Create time grid
         t = np.arange(0, horizon + time_step, time_step)
@@ -129,10 +129,11 @@ class SimulationEngine:
         # Create shocked parameters
         shocked_params = self.model.params.model_copy(deep=True)
         current_value = getattr(shocked_params, shock_var)
+        new_value = current_value + shock_size
 
         # Create new shocked parameters (Pydantic v2 style)
         shocked_params_dict = shocked_params.model_dump()
-        shocked_params_dict[shock_var] = current_value + shock_size
+        shocked_params_dict[shock_var] = new_value
 
         # Import the model class to create new instance
         from packages.models.src.macroeconomic.solow import (
@@ -140,7 +141,14 @@ class SimulationEngine:
             SolowParameters,
         )
 
-        new_params = SolowParameters(**shocked_params_dict)
+        # Validate shocked parameter will be accepted by Pydantic model
+        try:
+            new_params = SolowParameters(**shocked_params_dict)
+        except ValueError as e:
+            raise ValueError(
+                f"Shock of {shock_size} to {shock_var} results in invalid value "
+                f"{new_value}. Parameter constraints violated: {str(e)}"
+            )
         shocked_model = SolowGrowthModel(new_params)
 
         # Create temporary engine with shocked model
