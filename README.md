@@ -47,7 +47,7 @@ economic-models/
 ### Prerequisites
 
 - **Python 3.11+** and `uv` ([install](https://github.com/astral-sh/uv))
-- **Node.js 18+** and npm 9+
+- **Node.js 18+** and pnpm
 - Git
 
 ### Installation
@@ -61,14 +61,14 @@ cd economic-models
 uv pip install -e .
 
 # Install TypeScript dependencies
-npm install && npm run build
+pnpm install && pnpm run build
 
 # Start development
 # Terminal 1: Python API
 uvicorn apps.api.src.main:app --reload  # http://localhost:8000
 
 # Terminal 2: Next.js frontend
-cd apps/web && npm run dev  # http://localhost:3000
+cd apps/web && pnpm run dev  # http://localhost:3000
 ```
 
 ## Development Workflow
@@ -78,10 +78,10 @@ cd apps/web && npm run dev  # http://localhost:3000
 Each package has clear interfaces and can be developed independently:
 
 1. **Choose your component** - See package READMEs for ownership and interfaces
-2. **Install dependencies** - `cd packages/[your-package] && npm install`
-3. **Start development** - `npm run dev` (runs in watch mode)
-4. **Write tests** - `npm run test`
-5. **Check types** - `npm run type-check`
+2. **Install dependencies** - `cd packages/[your-package] && pnpm install`
+3. **Start development** - `pnpm run dev` (runs in watch mode)
+4. **Write tests** - `pnpm run test`
+5. **Check types** - `pnpm run type-check`
 
 ### Package Dependency Graph
 
@@ -112,18 +112,18 @@ git checkout -b feature/your-feature-name
 cd packages/your-package
 
 # Run tests
-npm run test
+pnpm run test
 
 # Type check
-npm run type-check
+pnpm run type-check
 
 # Build
-npm run build
+pnpm run build
 
 # From root - verify integration
 cd ../..
-npm run build
-npm run test
+pnpm run build
+pnpm run test
 ```
 
 ### Creating Pull Requests
@@ -144,9 +144,9 @@ git push -u origin feature/your-feature-name
 - Package: `core`, `models`, `simulation`, etc.
 
 **PR checklist:**
-- [ ] Tests pass (`npm run test`)
-- [ ] Types check (`npm run type-check`)
-- [ ] Code formatted (`npm run format`)
+- [ ] Tests pass (`pnpm run test`)
+- [ ] Types check (`pnpm run type-check`)
+- [ ] Code formatted (`pnpm run format`)
 - [ ] Package README updated if needed
 - [ ] Clear description of changes
 
@@ -200,20 +200,20 @@ git push -u origin feature/your-feature-name
 Each package has its own tests:
 ```bash
 cd packages/[package-name]
-npm run test
+pnpm run test
 ```
 
 ### Integration Tests
 Run from root to test package interactions:
 ```bash
-npm run test
+pnpm run test
 ```
 
 ### E2E Tests
 Test full application flows:
 ```bash
 cd apps/web
-npm run test:e2e
+pnpm run test:e2e
 ```
 
 ## Documentation
@@ -227,13 +227,13 @@ npm run test:e2e
 ## Scripts
 
 ```bash
-npm run dev          # Start all apps in development mode
-npm run build        # Build all packages and apps
-npm run test         # Run all tests
-npm run lint         # Lint all packages
-npm run type-check   # Type check all packages
-npm run clean        # Clean all build artifacts
-npm run format       # Format code with Prettier
+pnpm run dev          # Start all apps in development mode
+pnpm run build        # Build all packages and apps
+pnpm run test         # Run all tests
+pnpm run lint         # Lint all packages
+pnpm run type-check   # Type check all packages
+pnpm run clean        # Clean all build artifacts
+pnpm run format       # Format code with Prettier
 ```
 
 ## Contributing
@@ -244,7 +244,7 @@ Quick checklist:
 - [ ] Create feature branch from `main`
 - [ ] Write tests for new functionality
 - [ ] Update relevant documentation
-- [ ] Run `npm run type-check` and `npm run test`
+- [ ] Run `pnpm run type-check` and `pnpm run test`
 - [ ] Create PR with clear description
 - [ ] Request review from package owner
 - [ ] Address feedback

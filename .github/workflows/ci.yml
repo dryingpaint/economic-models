@@ -31,53 +31,57 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - name: Install dependencies
-        run: npm install
-      - name: Lint
-        run: npm run lint
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm run lint
 
   typescript-typecheck:
     name: TypeScript Type Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - name: Install dependencies
-        run: npm install
-      - name: Type check
-        run: npm run type-check
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm run type-check
 
   typescript-test:
     name: TypeScript Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - name: Install dependencies
-        run: npm install
-      - name: Test
-        run: npm run test
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm run test
 
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - name: Install dependencies
-        run: npm install
-      - name: Build
-        run: npm run build
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm run build

@@ -19,7 +19,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@economic-models/core": "*",
+    "@economic-models/core": "workspace:*",
     "axios": "^1.6.0"
   },
   "devDependencies": {
