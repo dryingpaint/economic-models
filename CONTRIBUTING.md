@@ -33,12 +33,37 @@ cd packages/your-package
 npm run test
 npm run type-check
 
-# 4. Commit (conventional format)
+# 4. Commit frequently (see commit guidelines below)
+git add .
 git commit -m "feat(models): add feature"
 
 # 5. Push and create PR
 git push -u origin feature/your-feature
 ```
+
+### Commit Guidelines
+
+**Commit frequently** - Make small, incremental commits as you work. Each commit should represent a logical unit of work.
+
+**Commit message format:**
+- Use conventional commit format: `type(scope): description`
+- Keep messages concise and descriptive
+- Write in imperative mood ("add feature" not "added feature")
+- Be professional - focus on what changed and why
+- Examples:
+  - `feat(models): add Solow growth model implementation`
+  - `fix(simulation): correct steady state calculation`
+  - `refactor(core): simplify model initialization`
+  - `test(models): add unit tests for growth calculation`
+  - `docs(readme): update installation instructions`
+
+**Common types:**
+- `feat`: New feature
+- `fix`: Bug fix
+- `refactor`: Code refactoring
+- `test`: Adding or updating tests
+- `docs`: Documentation changes
+- `chore`: Maintenance tasks
 
 ## Code Standards
 
@@ -143,6 +168,17 @@ describe('SolowModel', () => {
 - [ ] Code formatted
 - [ ] Files < 400 lines
 - [ ] No unnecessary complexity
+- [ ] Commits are small and logical
+- [ ] Commit messages are clear and professional
+
+**Creating the PR:**
+1. Push your branch: `git push -u origin your-branch-name`
+2. Open a pull request against `main`
+3. Write a concise PR description that:
+   - Summarizes what changed
+   - Explains why the change was needed
+   - Notes any breaking changes or important details
+   - Keep it brief but informative
 
 **PR should:**
 - Focus on one thing
