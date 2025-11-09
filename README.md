@@ -97,7 +97,7 @@ All packages
 
 ```bash
 # Create a feature branch
-git checkout -b your-feature-name
+git checkout -b feature/your-feature-name
 
 # Make your changes in your assigned package
 cd packages/your-package
@@ -111,11 +111,35 @@ npm run type-check
 # Build
 npm run build
 
-# Run everything to ensure integration
+# From root - verify integration
 cd ../..
 npm run build
 npm run test
 ```
+
+### Creating Pull Requests
+
+```bash
+# Commit with conventional commits format
+git add .
+git commit -m "feat(models): add Solow growth model"
+
+# Push your branch
+git push -u origin feature/your-feature-name
+
+# Create PR on GitHub targeting 'main' branch
+```
+
+**Commit format:** `<type>(<package>): <description>`
+- Types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`
+- Package: `core`, `models`, `simulation`, etc.
+
+**PR checklist:**
+- [ ] Tests pass (`npm run test`)
+- [ ] Types check (`npm run type-check`)
+- [ ] Code formatted (`npm run format`)
+- [ ] Package README updated if needed
+- [ ] Clear description of changes
 
 ## Project Structure by Team
 
