@@ -37,7 +37,16 @@ export function TimeSeriesChart({
 
       if (!plotRef.current) return
 
-      // Prepare data
+      // Prepare data - convert SteadyState to Record<string, number>
+      const steadyStateRecord = showSteadyState && data.metadata.steady_state
+        ? {
+            capital: data.metadata.steady_state.capital,
+            output: data.metadata.steady_state.output,
+            consumption: data.metadata.steady_state.consumption,
+            investment: data.metadata.steady_state.investment,
+          }
+        : undefined
+
       const timeSeriesData = {
         time: data.time,
         series: {
@@ -46,7 +55,7 @@ export function TimeSeriesChart({
           consumption: data.consumption,
           investment: data.investment,
         },
-        steadyState: showSteadyState ? data.metadata.steady_state : undefined,
+        steadyState: steadyStateRecord,
       }
 
       // Create traces and layout

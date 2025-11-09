@@ -8,7 +8,6 @@ import React, { useState } from 'react'
 import type {
   SolowParameters,
   SimulationResult,
-  DEFAULT_SOLOW_PARAMS,
 } from '@economic-models/core'
 import { solowApi } from '@economic-models/core'
 import { TimeSeriesChart } from './TimeSeriesChart'
@@ -40,7 +39,7 @@ export function SolowSimulation({
   const [error, setError] = useState<string | null>(null)
 
   const handleParamChange = (key: keyof SolowParameters, value: number) => {
-    setParams((prev) => ({ ...prev, [key]: value }))
+    setParams((prev: SolowParameters) => ({ ...prev, [key]: value }))
   }
 
   const runSimulation = async () => {

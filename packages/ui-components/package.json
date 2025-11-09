@@ -21,6 +21,7 @@
   "dependencies": {
     "@economic-models/core": "workspace:*",
     "@economic-models/visualization": "workspace:*",
+    "plotly.js-basic-dist-min": "^3.2.0",
     "react": "^18.2.0"
   },
   "devDependencies": {
