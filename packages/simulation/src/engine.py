@@ -169,3 +169,135 @@ class SimulationEngine:
         )
 
         return result
+
+    def simulate_islm(
+        self,
+        horizon: int,
+        shock_times: Optional[List[int]] = None,
+        shock_types: Optional[List[str]] = None,
+        shock_sizes: Optional[List[float]] = None,
+    ) -> SimulationResult:
+        """Simulate IS-LM model with optional policy shocks.
+
+        Args:
+            horizon: Number of periods to simulate
+            shock_times: Time periods when shocks occur
+            shock_types: Types of shocks ('G', 'T', 'M')
+            shock_sizes: Size of each shock
+
+        Returns:
+            SimulationResult with time paths of income, interest rate, etc.
+        """
+        # Initialize arrays
+        time = np.arange(0, horizon + 1)
+        n = len(time)
+
+        # Arrays to store results
+        income = np.zeros(n)
+        interest_rate = np.zeros(n)
+        consumption = np.zeros(n)
+        investment = np.zeros(n)
+
+        # Initialize at equilibrium
+        eq = self.model.calculate_equilibrium()
+        income[0] = eq["income"]
+        interest_rate[0] = eq["interest_rate"]
+        consumption[0] = eq["consumption"]
+        investment[0] = eq["investment"]
+
+        # Store current parameters
+        current_G = self.model.params.government_spending
+        current_T = self.model.params.taxes
+        current_M = self.model.params.money_supply
+
+        # Process shocks
+        if shock_times is None:
+            shock_times = []
+        if shock_types is None:
+            shock_types = []
+        if shock_sizes is None:
+            shock_sizes = []
+
+        # Import IS-LM model classes
+        from packages.models.src.macroeconomic.islm import ISLMModel, ISLMParameters
+
+        # Simulate period by period
+        current_model = self.model
+        for t in range(1, n):
+            # Check for shocks at this time
+            for shock_idx, shock_time in enumerate(shock_times):
+                if t == shock_time:
+                    shock_type = shock_types[shock_idx]
+                    shock_size = shock_sizes[shock_idx]
+
+                    if shock_type == "G":
+                        current_G += shock_size
+                    elif shock_type == "T":
+                        current_T += shock_size
+                    elif shock_type == "M":
+                        current_M += shock_size
+
+                    # Create new model with updated parameters
+                    new_params = ISLMParameters(
+                        autonomous_consumption=self.model.params.autonomous_consumption,
+                        mpc=self.model.params.mpc,
+                        autonomous_investment=self.model.params.autonomous_investment,
+                        investment_sensitivity=self.model.params.investment_sensitivity,
+                        autonomous_money_demand=self.model.params.autonomous_money_demand,
+                        income_money_demand=self.model.params.income_money_demand,
+                        interest_money_demand=self.model.params.interest_money_demand,
+                        government_spending=current_G,
+                        taxes=current_T,
+                        money_supply=current_M,
+                        price_level=self.model.params.price_level,
+                    )
+                    current_model = ISLMModel(new_params)
+
+            # Calculate equilibrium for this period
+            eq = current_model.calculate_equilibrium()
+            income[t] = eq["income"]
+            interest_rate[t] = eq["interest_rate"]
+            consumption[t] = eq["consumption"]
+            investment[t] = eq["investment"]
+
+        return SimulationResult(
+            time=time,
+            states={
+                "income": income,
+                "interest_rate": interest_rate,
+                "consumption": consumption,
+                "investment": investment,
+            },
+            metadata={
+                "horizon": horizon,
+                "initial_equilibrium": {
+                    "income": income[0],
+                    "interest_rate": interest_rate[0],
+                },
+                "shock_times": shock_times,
+                "shock_types": shock_types,
+                "shock_sizes": shock_sizes,
+                "model_params": self.model.params.model_dump(),
+            },
+        )
+
+    def islm_impulse_response(
+        self, shock_type: str, shock_size: float, horizon: int
+    ) -> SimulationResult:
+        """Calculate impulse response to a policy shock in IS-LM model.
+
+        Args:
+            shock_type: Type of shock ('G', 'T', 'M')
+            shock_size: Size of shock
+            horizon: Number of periods to simulate
+
+        Returns:
+            SimulationResult showing response to shock
+        """
+        # Simulate with shock at t=1
+        return self.simulate_islm(
+            horizon=horizon,
+            shock_times=[1],
+            shock_types=[shock_type],
+            shock_sizes=[shock_size],
+        )

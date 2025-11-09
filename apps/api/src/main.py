@@ -3,6 +3,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from apps.api.src.routes.solow import router as solow_router
+from apps.api.src.routes.islm import router as islm_router
 
 app = FastAPI(
     title="Economic Models API",
@@ -23,6 +24,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(solow_router)
+app.include_router(islm_router)
 
 
 @app.get("/")
