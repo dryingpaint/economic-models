@@ -47,6 +47,31 @@ git push -u origin feature/your-feature
 - If longer, split into multiple files
 - Each file should have one clear purpose
 
+### Python Imports
+**CRITICAL: Always use full path imports, keep `__init__.py` empty**
+
+```python
+# GOOD: Full path imports
+from packages.models.src.macroeconomic.solow import SolowGrowthModel
+from packages.simulation.src.engine import SimulationEngine
+
+# BAD: Relative imports or __init__.py exports
+from src.macroeconomic.solow import SolowGrowthModel  # ❌
+from ..solow import SolowGrowthModel  # ❌
+```
+
+**Why?**
+- Eliminates import ambiguity in monorepo
+- Works consistently across tests, apps, and packages
+- Avoids Python path manipulation
+- Clear dependency tracking
+
+**`__init__.py` files:**
+```python
+# All __init__.py files should be empty or contain only:
+# Empty - use full path imports
+```
+
 ### TypeScript
 ```typescript
 // GOOD: Clean, simple, typed
