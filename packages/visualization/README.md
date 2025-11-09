@@ -1,44 +1,69 @@
 # @economic-models/visualization
 
-Visualization components and utilities for economic data and models.
+Framework-agnostic visualization library for economic data.
 
 ## Purpose
 
-This package provides visualization capabilities:
+Visualization capabilities for economic models:
 - Time series charts
-- Phase diagrams
 - Impulse response functions
-- 3D parameter space visualization
-- Network diagrams for multi-agent systems
-- Geographic/spatial visualizations
-- Interactive controls
-- Export to publication-ready formats
+- Phase diagrams
+- 3D parameter spaces
+- Network diagrams (agent-based models)
+- Export to publication formats (PNG, SVG, PDF)
+
+## Tech Stack
+
+**Hybrid approach for best-in-class results:**
+
+- **Plotly.js** - Standard economic charts (90% of use cases)
+  - Time series, IRFs, surface plots
+  - Interactive out of the box
+  - Publication quality
+
+- **D3.js** - Custom visualizations (10% of use cases)
+  - Network diagrams for ABMs
+  - Custom economic diagrams
+  - Maximum flexibility
 
 ## Key Exports
 
 ```typescript
-// Chart components (framework-agnostic)
+// Plotly-based charts
 export class TimeSeriesChart { ... }
-export class PhaseDiagram { ... }
 export class ImpulseResponseChart { ... }
+export class ParameterSpaceChart { ... }
+
+// D3-based charts
+export class NetworkDiagram { ... }
+export class PhaseDiagram { ... }
 
 // Utilities
 export function exportChart(chart, format: 'png' | 'svg' | 'pdf'): Blob
-export function createInteractiveControls(parameters): ControlPanel
 ```
 
 ## Dependencies
 
-- `@economic-models/core` - Base types
-- `d3` - Data visualization
 - `plotly.js` - Interactive charts
+- `d3` - Custom visualizations
+- `@economic-models/core` - Types
 
-## Dependents
+## Structure
 
-- `@economic-models/ui-components` - React wrappers
-- `apps/web` - Main web application
+```
+src/
+├── plotly/             # Plotly.js charts
+│   ├── time-series.ts
+│   ├── impulse-response.ts
+│   └── surface-plot.ts
+├── d3/                 # D3 charts
+│   ├── network.ts
+│   └── phase-diagram.ts
+├── export/             # Export utilities
+└── themes/             # Chart themes
+```
 
-## Getting Started
+## Development
 
 ```bash
 cd packages/visualization
@@ -47,64 +72,78 @@ npm run dev
 npm run test
 ```
 
-## Directory Structure
+## Code Standards
 
-```
-src/
-├── charts/             # Chart implementations
-│   ├── time-series.ts
-│   ├── phase-diagram.ts
-│   ├── impulse-response.ts
-│   └── parameter-space.ts
-├── network/            # Network visualizations
-├── spatial/            # Geographic visualizations
-├── controls/           # Interactive controls
-├── export/             # Export utilities
-└── themes/             # Visualization themes
-```
-
-## Development Guidelines
-
-### Chart Design Principles
-
-- Framework-agnostic core (vanilla JS/D3)
+- **Max 300-400 lines per file**
+- Framework-agnostic (vanilla TypeScript)
+- Accessible (WCAG 2.1 AA)
 - Responsive by default
-- Accessibility compliant (WCAG 2.1 AA)
-- Publication-ready output
-- Performant for large datasets
-
-### Adding a New Chart Type
-
-1. Create chart class with standard interface
-2. Implement responsive behavior
-3. Add accessibility features (labels, alt text)
-4. Support multiple export formats
-5. Add usage examples
-6. Write visual regression tests
-
-## Testing
-
-- Visual regression tests
-- Accessibility tests (color contrast, screen readers)
-- Performance tests for large datasets
-- Export format validation
+- Type-safe APIs
 
 ## Examples
+
+### Time Series (Plotly)
 
 ```typescript
 import { TimeSeriesChart } from '@economic-models/visualization'
 
 const chart = new TimeSeriesChart({
-  container: '#chart',
-  data: simulationResult,
-  variables: ['output', 'capital', 'consumption'],
-  theme: 'publication'
+  container: document.getElementById('chart'),
+  data: {
+    time: [0, 1, 2, 3, 4],
+    series: {
+      gdp: [100, 102, 104, 106, 108],
+      consumption: [60, 61, 62, 63, 64]
+    }
+  },
+  options: {
+    title: 'GDP Growth',
+    xLabel: 'Time',
+    yLabel: 'Level'
+  }
 })
 
 chart.render()
-chart.export('svg') // For publication
+chart.export('svg')  // Publication ready
 ```
 
-## API Stability
+### Network Diagram (D3)
 
-⚠️ **Alpha** - Chart APIs may evolve based on user feedback.
+```typescript
+import { NetworkDiagram } from '@economic-models/visualization'
+
+const network = new NetworkDiagram({
+  container: document.getElementById('network'),
+  nodes: [...],
+  links: [...],
+  options: {
+    nodeSize: d => d.degree,
+    nodeColor: d => d.type
+  }
+})
+
+network.render()
+```
+
+## Design Principles
+
+1. **Simple API** - Easy to use, hard to misuse
+2. **Performance** - Handle large datasets efficiently
+3. **Accessibility** - Screen readers, keyboard navigation
+4. **Publication ready** - High-quality exports
+5. **Interactive** - Zoom, pan, hover by default
+
+## Testing
+
+```bash
+npm run test           # Unit tests
+npm run test:visual    # Visual regression
+npm run test:a11y      # Accessibility
+```
+
+## Why Plotly + D3?
+
+- **Plotly**: Best for standard charts, minimal code, great defaults
+- **D3**: Best for custom visualizations, maximum control
+- Use the right tool for each job
+- Both are industry standards with strong TypeScript support
