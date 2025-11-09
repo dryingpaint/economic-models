@@ -31,41 +31,53 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - run: npm install
-      - run: npm run lint
+      - name: Install dependencies
+        run: npm install
+      - name: Lint
+        run: npm run lint
 
   typescript-typecheck:
     name: TypeScript Type Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - run: npm install
-      - run: npm run type-check
+      - name: Install dependencies
+        run: npm install
+      - name: Type check
+        run: npm run type-check
 
   typescript-test:
     name: TypeScript Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - run: npm install
-      - run: npm run test
+      - name: Install dependencies
+        run: npm install
+      - name: Test
+        run: npm run test
 
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - run: npm install
-      - run: npm run build
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
