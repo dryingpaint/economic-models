@@ -2,11 +2,6 @@
 
 Main web application for the economic models platform.
 
-## Ownership
-**Team:** Web Platform
-**Lead:** TBD
-**Slack:** #team-web-platform
-
 ## Purpose
 
 This is the primary user-facing web application built with Next.js. It provides:

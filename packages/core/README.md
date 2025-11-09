@@ -2,11 +2,6 @@
 
 Core types, interfaces, and utilities for the economic models platform.
 
-## Ownership
-**Team:** Platform Infrastructure
-**Lead:** TBD
-**Slack:** #team-platform-infra
-
 ## Purpose
 
 This package provides the foundational types and utilities used across all other packages. It defines:

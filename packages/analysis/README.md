@@ -2,11 +2,6 @@
 
 Statistical analysis and policy tools.
 
-## Ownership
-**Team:** Economic Analysis
-**Language:** Python 3.11+
-**Slack:** #team-economic-analysis
-
 ## Purpose
 
 Analysis capabilities:

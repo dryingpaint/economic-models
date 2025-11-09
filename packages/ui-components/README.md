@@ -2,11 +2,6 @@
 
 Reusable React UI components for the economic models platform.
 
-## Ownership
-**Team:** Frontend Engineering
-**Lead:** TBD
-**Slack:** #team-frontend
-
 ## Purpose
 
 This package provides React components:

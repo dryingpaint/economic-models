@@ -2,11 +2,6 @@
 
 Data integration, management, and preprocessing for economic analysis.
 
-## Ownership
-**Team:** Data Engineering
-**Lead:** TBD
-**Slack:** #team-data-engineering
-
 ## Purpose
 
 This package handles:

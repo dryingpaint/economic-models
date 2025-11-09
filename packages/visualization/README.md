@@ -2,11 +2,6 @@
 
 Visualization components and utilities for economic data and models.
 
-## Ownership
-**Team:** Data Visualization
-**Lead:** TBD
-**Slack:** #team-data-viz
-
 ## Purpose
 
 This package provides visualization capabilities:

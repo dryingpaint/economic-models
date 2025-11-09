@@ -2,11 +2,6 @@
 
 Simulation engine using numerical methods.
 
-## Ownership
-**Team:** Computational Economics
-**Language:** Python 3.11+
-**Slack:** #team-computational-econ
-
 ## Purpose
 
 Numerical simulation capabilities:

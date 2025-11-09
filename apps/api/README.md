@@ -2,11 +2,6 @@
 
 FastAPI server exposing Python backend to frontend.
 
-## Ownership
-**Team:** Backend Engineering
-**Language:** Python 3.11+
-**Slack:** #team-backend
-
 ## Purpose
 
 REST API for:

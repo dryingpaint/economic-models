@@ -2,11 +2,6 @@
 
 Economic model implementations in Python.
 
-## Ownership
-**Team:** Economic Research
-**Language:** Python 3.11+
-**Slack:** #team-economic-research
-
 ## Purpose
 
 Implements economic models using scientific Python stack:
