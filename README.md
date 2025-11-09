@@ -71,37 +71,6 @@ uvicorn apps.api.src.main:app --reload  # http://localhost:8000
 cd apps/web && pnpm run dev  # http://localhost:3000
 ```
 
-## Development Workflow
-
-### For Engineers Working in Parallel
-
-Each package has clear interfaces and can be developed independently:
-
-1. **Choose your component** - See package READMEs for ownership and interfaces
-2. **Install dependencies** - `cd packages/[your-package] && pnpm install`
-3. **Start development** - `pnpm run dev` (runs in watch mode)
-4. **Write tests** - `pnpm run test`
-5. **Check types** - `pnpm run type-check`
-
-### Package Dependency Graph
-
-```
-core (no dependencies)
-  ├─→ models
-  ├─→ data
-  └─→ visualization
-       └─→ ui-components
-
-models + data
-  └─→ simulation
-       └─→ analysis
-
-All packages
-  └─→ web, api
-```
-
-**Key principle:** Packages only depend on packages above them in the tree. This enables parallel development.
-
 ### Making Changes
 
 ```bash
@@ -149,50 +118,6 @@ git push -u origin feature/your-feature-name
 - [ ] Code formatted (`pnpm run format`)
 - [ ] Package README updated if needed
 - [ ] Clear description of changes
-
-## Project Structure by Team
-
-### Python Teams
-
-**Economic Research** → `packages/models` (Python)
-- Implement economic models using NumPy/SciPy
-- Solow, DSGE, RBC, game theory models
-
-**Computational Economics** → `packages/simulation` (Python)
-- Numerical solvers, ODE/PDE
-- Monte Carlo, calibration
-
-**Economic Analysis** → `packages/analysis` (Python)
-- Policy analysis, comparative statics
-- Statistical tests with Pandas
-
-**Data Engineering** → `packages/data` (Python)
-- FRED, World Bank, IMF integrations
-- Data preprocessing
-
-**Backend Engineering** → `apps/api` (Python FastAPI)
-- REST API endpoints
-- Request validation
-
-### TypeScript Teams
-
-**Platform Infrastructure** → `packages/core` (TypeScript)
-- Shared types and utilities
-
-**Data Visualization** → `packages/visualization` (TypeScript)
-- D3/Plotly chart implementations
-
-**Frontend Engineering** → `packages/ui-components` (TypeScript)
-- React component library
-
-**Web Platform** → `apps/web` (TypeScript Next.js)
-- User-facing web application
-
-## Communication Channels
-
-- **Slack Channels:** See individual package READMEs for team-specific channels
-- **Sync Meetings:** Architecture Council (weekly), Team standups (daily)
-- **Async:** GitHub Discussions for proposals, GitHub Issues for bugs/features
 
 ## Testing Strategy
 
@@ -249,21 +174,3 @@ Quick checklist:
 - [ ] Request review from package owner
 - [ ] Address feedback
 - [ ] Squash and merge
-
-## License
-
-TBD
-
-## Support
-
-- **Issues:** GitHub Issues
-- **Discussions:** GitHub Discussions
-- **Email:** [team email]
-
-## Roadmap
-
-See [ROADMAP.md](./docs/ROADMAP.md) for planned features and timeline.
-
----
-
-Built with love by economists and engineers who believe economic models should be accessible to everyone.
