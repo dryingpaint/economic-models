@@ -19,8 +19,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@economic-models/core": "workspace:*",
-    "@economic-models/visualization": "workspace:*",
+    "@economic-models/core": "*",
+    "@economic-models/visualization": "*",
     "react": "^18.2.0"
   },
   "devDependencies": {
