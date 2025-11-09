@@ -1,112 +1,133 @@
-# @economic-models/models
+# economic-models-models
 
-Economic model implementations and library.
+Economic model implementations in Python.
 
 ## Ownership
 **Team:** Economic Research
-**Lead:** TBD
+**Language:** Python 3.11+
 **Slack:** #team-economic-research
 
 ## Purpose
 
-This package contains implementations of economic models including:
-- Macroeconomic models (Solow, IS-LM, DSGE)
+Implements economic models using scientific Python stack:
+- Macroeconomic models (Solow, IS-LM, DSGE, RBC)
 - Microeconomic models (Supply/Demand, Market equilibrium)
-- Game theory models (Nash equilibrium, evolutionary games)
-- Behavioral economics models
-- Agent-based models (ABM)
+- Game theory models
+- Agent-based models
 
 ## Key Exports
 
-```typescript
-// Model classes
-export class SolowGrowthModel implements EconomicModel { ... }
-export class ISLMModel implements EconomicModel { ... }
-export class DSGEModel implements EconomicModel { ... }
+```python
+from economic_models.models import SolowGrowthModel, ISLMModel
 
-// Model factory
-export function createModel(type: ModelType, config: ModelConfig): EconomicModel
+# Create and run model
+model = SolowGrowthModel(
+    savings_rate=0.2,
+    depreciation_rate=0.05,
+    population_growth=0.01,
+    alpha=0.33
+)
 
-// Model catalog
-export const MODEL_CATALOG: ModelCatalogEntry[]
+steady_state = model.calculate_steady_state()
 ```
 
 ## Dependencies
 
-- `@economic-models/core` - Base types and interfaces
+- `numpy` - Numerical computations
+- `scipy` - Scientific computing
+- `pydantic` - Data validation
 
-## Dependents
-
-- `@economic-models/simulation` - Runs these models
-- `@economic-models/analysis` - Analyzes model outputs
-- `apps/web` - Displays model information
-
-## Getting Started
-
-```bash
-cd packages/models
-npm install
-npm run dev
-npm run test
-```
-
-## Directory Structure
+## Structure
 
 ```
 src/
-├── macroeconomic/      # Macro models (Solow, RBC, DSGE, etc.)
-├── microeconomic/      # Micro models (supply/demand, etc.)
-├── game-theory/        # Game theoretic models
-├── behavioral/         # Behavioral economics models
-├── agent-based/        # ABM implementations
-├── catalog/            # Model metadata and catalog
-└── factory/            # Model creation utilities
+├── macroeconomic/      # Macro models
+├── microeconomic/      # Micro models
+├── game_theory/        # Game theory
+├── agent_based/        # ABM
+└── base.py             # Base model interface
+tests/
+└── test_*.py           # Tests
 ```
 
-## Development Guidelines
+## Development
 
-### Adding a New Model
+```bash
+# Install with uv
+uv pip install -e .
 
-1. Create model class implementing `EconomicModel` interface
-2. Add comprehensive JSDoc documentation
-3. Include mathematical equations in comments
-4. Write unit tests with known analytical solutions
-5. Add model to catalog with metadata
-6. Update this README
+# Run tests
+pytest
 
-### Model Implementation Checklist
+# Type check
+mypy src/
 
-- [ ] Implements `EconomicModel` interface from `@economic-models/core`
-- [ ] Parameters validated with Zod schemas
-- [ ] Initial state computation
-- [ ] Step/update function for dynamics
-- [ ] Steady-state calculation (if applicable)
-- [ ] Unit tests with analytical benchmarks
-- [ ] JSDoc with references to papers/textbooks
+# Format
+black src/ tests/
+ruff check src/ tests/
+```
+
+## Code Standards
+
+- **Max 300-400 lines per file**
+- Type hints required
+- Docstrings with numpy format
+- Unit tests with analytical solutions
+- Clean, simple implementations
+
+## Adding a Model
+
+1. Create class inheriting from `EconomicModel`
+2. Implement required methods
+3. Add type hints and docstrings
+4. Write tests against known solutions
+5. Keep files < 400 lines
+
+Example:
+```python
+from pydantic import BaseModel, Field
+import numpy as np
+
+class SolowParameters(BaseModel):
+    savings_rate: float = Field(gt=0, lt=1)
+    depreciation_rate: float = Field(gt=0, lt=1)
+    alpha: float = Field(gt=0, lt=1)
+
+class SolowGrowthModel:
+    """Solow-Swan growth model."""
+
+    def __init__(self, params: SolowParameters):
+        self.params = params
+
+    def calculate_steady_state(self) -> dict[str, float]:
+        """Calculate steady state capital and output."""
+        s, delta, alpha = (
+            self.params.savings_rate,
+            self.params.depreciation_rate,
+            self.params.alpha
+        )
+        k_star = (s / delta) ** (1 / (1 - alpha))
+        y_star = k_star ** alpha
+        return {"capital": k_star, "output": y_star}
+```
 
 ## Testing
 
-- Test against known analytical solutions
-- Verify steady-state calculations
-- Test parameter boundary conditions
-- Validate numerical stability
+```python
+def test_solow_steady_state():
+    params = SolowParameters(
+        savings_rate=0.2,
+        depreciation_rate=0.05,
+        alpha=0.33
+    )
+    model = SolowGrowthModel(params)
+    ss = model.calculate_steady_state()
 
-## Examples
-
-```typescript
-import { SolowGrowthModel } from '@economic-models/models'
-
-const model = new SolowGrowthModel({
-  savingsRate: 0.2,
-  depreciationRate: 0.05,
-  populationGrowth: 0.01,
-  technologyGrowth: 0.02,
-  alpha: 0.33
-})
-
-const steadyState = model.computeSteadyState()
+    # Test against analytical solution
+    expected_k = (0.2 / 0.05) ** (1 / 0.67)
+    assert abs(ss["capital"] - expected_k) < 1e-6
 ```
 
 ## API Stability
 
-⚠️ **Alpha** - API may change. Each model should maintain backward compatibility when possible.
+⚠️ **Alpha** - API may change. Pin versions in production.

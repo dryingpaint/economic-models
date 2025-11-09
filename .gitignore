@@ -42,7 +42,7 @@ lerna-debug.log*
 # Turbo
 .turbo
 
-# Python (for data processing modules)
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -50,8 +50,9 @@ __pycache__/
 .Python
 venv/
 env/
-
-# R (for statistical analysis)
-.Rhistory
-.RData
-.Rproj.user
+.venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.uv/

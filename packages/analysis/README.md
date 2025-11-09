@@ -1,116 +1,64 @@
-# @economic-models/analysis
+# economic-models-analysis
 
-Analysis tools and methods for economic models and empirical data.
+Statistical analysis and policy tools.
 
 ## Ownership
 **Team:** Economic Analysis
-**Lead:** TBD
+**Language:** Python 3.11+
 **Slack:** #team-economic-analysis
 
 ## Purpose
 
-This package provides analytical tools:
+Analysis capabilities:
 - Comparative statics
-- Policy analysis and scenario comparison
+- Policy scenario analysis
 - Welfare analysis
-- Counterfactual simulation
-- Statistical testing
+- Statistical tests
 - Model validation
-- Forecasting
 
 ## Key Exports
 
-```typescript
-// Analysis tools
-export class ComparativeStaticsAnalyzer { ... }
-export class PolicyAnalyzer { ... }
-export class WelfareAnalyzer { ... }
+```python
+from economic_models.analysis import (
+    ComparativeStaticsAnalyzer,
+    PolicyAnalyzer
+)
 
-// Statistical methods
-export function runGrangerCausality(data): TestResult
-export function structuralBreakTest(data): TestResult
-
-// Validation
-export function validateModel(model, empiricalData): ValidationResult
+analyzer = PolicyAnalyzer(model)
+result = analyzer.compare_scenarios(baseline, policy)
 ```
 
 ## Dependencies
 
-- `@economic-models/core` - Base types
-- `@economic-models/models` - Model implementations
-- `@economic-models/simulation` - Run simulations
-- `@economic-models/data` - Empirical data
-- `simple-statistics` - Statistical functions
+- `numpy`, `scipy` - Numerical work
+- `pandas` - Data handling
+- Models and simulation packages
 
-## Dependents
-
-- `apps/api` - Analysis endpoints
-- `apps/web` - Analysis UI
-
-## Getting Started
-
-```bash
-cd packages/analysis
-npm install
-npm run dev
-npm run test
-```
-
-## Directory Structure
+## Structure
 
 ```
 src/
-├── comparative-statics/ # Comparative statics analysis
-├── policy/              # Policy analysis tools
-├── welfare/             # Welfare analysis
-├── counterfactual/      # Counterfactual simulations
-├── validation/          # Model validation
-├── forecasting/         # Forecasting methods
-└── statistics/          # Statistical tests
+├── comparative_statics/
+├── policy/
+├── welfare/
+├── validation/
+└── statistics/
+tests/
+└── test_*.py
 ```
 
-## Development Guidelines
+## Development
 
-### Adding a New Analysis Method
-
-1. Implement analysis class or function
-2. Add theoretical documentation (what method does)
-3. Include references to academic literature
-4. Write comprehensive tests
-5. Add usage examples
-6. Document assumptions and limitations
-
-### Statistical Rigor
-
-- Always report confidence intervals
-- Document assumptions clearly
-- Provide diagnostic tests
-- Include sensitivity analysis
-
-## Testing
-
-- Test against known results from academic papers
-- Validate statistical properties
-- Test edge cases and robustness
-- Integration tests with real models
-
-## Examples
-
-```typescript
-import { PolicyAnalyzer } from '@economic-models/analysis'
-import { DSGEModel } from '@economic-models/models'
-
-const model = new DSGEModel(params)
-const analyzer = new PolicyAnalyzer(model)
-
-const comparison = await analyzer.compareScenarios({
-  baseline: { taxRate: 0.2 },
-  policy: { taxRate: 0.25 }
-})
-
-console.log(comparison.welfareEffect)
+```bash
+uv pip install -e .
+pytest
+mypy src/
 ```
 
-## API Stability
+## Code Standards
 
-⚠️ **Alpha** - Analysis methods being refined based on research needs.
+- Max 300-400 lines per file
+- Statistical rigor
+- Confidence intervals
+- Clear assumptions
+- Test against known results

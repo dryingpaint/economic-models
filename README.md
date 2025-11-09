@@ -14,31 +14,40 @@ This platform provides:
 
 ## Architecture
 
-This is a TypeScript monorepo using npm workspaces and Turbo for build orchestration.
+**Hybrid Python/TypeScript stack** - Best tool for each job.
 
 ```
 economic-models/
-├── packages/              # Shared packages (can be developed in parallel)
-│   ├── core/              # Base types and utilities
-│   ├── models/            # Economic model implementations
-│   ├── simulation/        # Simulation engine and solvers
-│   ├── visualization/     # Visualization library (framework-agnostic)
-│   ├── data/              # Data integration and management
-│   ├── analysis/          # Analysis tools and methods
-│   └── ui-components/     # React UI components
+├── packages/
+│   # Python packages (scientific computing)
+│   ├── models/            # Economic models (Python + NumPy/SciPy)
+│   ├── simulation/        # Simulation engine (Python)
+│   ├── analysis/          # Statistical analysis (Python + Pandas)
+│   ├── data/              # Data integration (Python)
 │
-├── apps/                  # Applications
-│   ├── web/               # Next.js web application
-│   └── api/               # Express.js REST API
+│   # TypeScript packages (UI/visualization)
+│   ├── core/              # Shared TypeScript types
+│   ├── visualization/     # Charts (D3/Plotly)
+│   └── ui-components/     # React components
 │
-└── docs/                  # Documentation
+├── apps/
+│   ├── api/               # FastAPI server (Python)
+│   └── web/               # Next.js frontend (TypeScript)
+│
+└── docs/
 ```
+
+**Why hybrid?**
+- Python for numerical computing (NumPy, SciPy, Pandas)
+- TypeScript for type-safe UI development
+- Best performance and ecosystem for each domain
 
 ## Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ and npm 9+
+- **Python 3.11+** and `uv` ([install](https://github.com/astral-sh/uv))
+- **Node.js 18+** and npm 9+
 - Git
 
 ### Installation
@@ -48,19 +57,19 @@ economic-models/
 git clone <repository-url>
 cd economic-models
 
-# Install dependencies
-npm install
+# Install Python dependencies
+uv pip install -e .
 
-# Build all packages
-npm run build
+# Install TypeScript dependencies
+npm install && npm run build
 
 # Start development
-npm run dev
-```
+# Terminal 1: Python API
+uvicorn apps.api.src.main:app --reload  # http://localhost:8000
 
-This will start:
-- Web app on `http://localhost:3000`
-- API server on `http://localhost:3001`
+# Terminal 2: Next.js frontend
+cd apps/web && npm run dev  # http://localhost:3000
+```
 
 ## Development Workflow
 
@@ -143,41 +152,41 @@ git push -u origin feature/your-feature-name
 
 ## Project Structure by Team
 
-### Team: Platform Infrastructure
-**Package:** `@economic-models/core`
-**Responsibilities:** Base types, utilities, validation schemas
+### Python Teams
 
-### Team: Economic Research
-**Package:** `@economic-models/models`
-**Responsibilities:** Implement economic models, maintain model catalog
+**Economic Research** → `packages/models` (Python)
+- Implement economic models using NumPy/SciPy
+- Solow, DSGE, RBC, game theory models
 
-### Team: Computational Economics
-**Package:** `@economic-models/simulation`
-**Responsibilities:** Numerical solvers, simulation engine, optimization
+**Computational Economics** → `packages/simulation` (Python)
+- Numerical solvers, ODE/PDE
+- Monte Carlo, calibration
 
-### Team: Data Visualization
-**Package:** `@economic-models/visualization`
-**Responsibilities:** Chart implementations, export tools, themes
+**Economic Analysis** → `packages/analysis` (Python)
+- Policy analysis, comparative statics
+- Statistical tests with Pandas
 
-### Team: Data Engineering
-**Package:** `@economic-models/data`
-**Responsibilities:** Data source integrations, caching, preprocessing
+**Data Engineering** → `packages/data` (Python)
+- FRED, World Bank, IMF integrations
+- Data preprocessing
 
-### Team: Economic Analysis
-**Package:** `@economic-models/analysis`
-**Responsibilities:** Analysis methods, statistical tests, validation
+**Backend Engineering** → `apps/api` (Python FastAPI)
+- REST API endpoints
+- Request validation
 
-### Team: Frontend Engineering
-**Package:** `@economic-models/ui-components`
-**Responsibilities:** React components, hooks, Storybook
+### TypeScript Teams
 
-### Team: Web Platform
-**App:** `apps/web`
-**Responsibilities:** Next.js web application, UX, pages
+**Platform Infrastructure** → `packages/core` (TypeScript)
+- Shared types and utilities
 
-### Team: Backend Engineering
-**App:** `apps/api`
-**Responsibilities:** REST API, authentication, data persistence
+**Data Visualization** → `packages/visualization` (TypeScript)
+- D3/Plotly chart implementations
+
+**Frontend Engineering** → `packages/ui-components` (TypeScript)
+- React component library
+
+**Web Platform** → `apps/web` (TypeScript Next.js)
+- User-facing web application
 
 ## Communication Channels
 

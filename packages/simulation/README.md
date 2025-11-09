@@ -1,113 +1,88 @@
-# @economic-models/simulation
+# economic-models-simulation
 
-Simulation engine for running economic models and analyzing their dynamics.
+Simulation engine using numerical methods.
 
 ## Ownership
 **Team:** Computational Economics
-**Lead:** TBD
+**Language:** Python 3.11+
 **Slack:** #team-computational-econ
 
 ## Purpose
 
-This package provides:
-- Numerical solvers (ODE, PDE, difference equations)
+Numerical simulation capabilities:
+- ODE/PDE solvers
 - Monte Carlo simulation
 - Impulse response functions
-- Shock simulation
 - Sensitivity analysis
 - Calibration algorithms
-- Parallel execution for complex models
 
 ## Key Exports
 
-```typescript
-// Simulation runner
-export class SimulationEngine { ... }
+```python
+from economic_models.simulation import SimulationEngine, ODESolver
 
-// Solvers
-export class ODESolver { ... }
-export class MonteCarloSimulator { ... }
-
-// Analysis
-export function computeImpulseResponse(model, shock, horizon): TimeSeries
-export function sensitivityAnalysis(model, parameters): SensitivityResult
+engine = SimulationEngine(model)
+result = engine.simulate(horizon=100, shocks=[...])
 ```
 
 ## Dependencies
 
-- `@economic-models/core` - Base types
-- `@economic-models/models` - Model implementations
-- `mathjs` - Mathematical operations
+- `numpy` - Array operations
+- `scipy` - Numerical solvers
+- Models from `economic-models-models`
 
-## Dependents
-
-- `@economic-models/analysis` - Uses simulation results
-- `apps/api` - Runs simulations on request
-- `apps/web` - Interactive simulations
-
-## Getting Started
-
-```bash
-cd packages/simulation
-npm install
-npm run dev
-npm run test
-```
-
-## Directory Structure
+## Structure
 
 ```
 src/
-├── solvers/            # Numerical solvers
-│   ├── ode.ts          # ODE solvers (Runge-Kutta, etc.)
-│   ├── pde.ts          # PDE solvers
-│   └── optimization.ts # Optimization algorithms
-├── monte-carlo/        # Monte Carlo simulation
-├── impulse-response/   # IRF computation
-├── calibration/        # Calibration algorithms
-├── sensitivity/        # Sensitivity analysis
-└── engine/             # Main simulation orchestration
+├── solvers/            # ODE, PDE solvers
+├── monte_carlo/        # MC simulation
+├── impulse_response/   # IRF computation
+├── calibration/        # Parameter fitting
+└── engine.py           # Main engine
+tests/
+└── test_*.py
 ```
 
-## Development Guidelines
+## Development
 
-### Adding a New Solver
+```bash
+uv pip install -e .
+pytest
+mypy src/
+black src/ tests/
+```
 
-1. Implement solver interface
-2. Add numerical accuracy tests
-3. Benchmark performance
-4. Document algorithm and parameters
-5. Add usage examples
+## Code Standards
 
-### Performance Considerations
+- Max 300-400 lines per file
+- Vectorized NumPy operations
+- Type hints required
+- Performance-critical code profiled
+- Test numerical convergence
 
-- Use typed arrays for large simulations
-- Implement worker pool for parallel execution
-- Cache intermediate results when possible
+## Example
+
+```python
+import numpy as np
+from scipy.integrate import odeint
+
+class ODESolver:
+    """Solve ordinary differential equations."""
+
+    def solve(
+        self,
+        func: callable,
+        y0: np.ndarray,
+        t: np.ndarray
+    ) -> np.ndarray:
+        """Solve ODE using scipy."""
+        return odeint(func, y0, t)
+```
+
+## Performance
+
+- Use NumPy vectorization
 - Profile before optimizing
-
-## Testing
-
-- Test against known analytical solutions
-- Verify numerical convergence
-- Test edge cases (stability, convergence)
-- Performance benchmarks for large simulations
-
-## Examples
-
-```typescript
-import { SimulationEngine } from '@economic-models/simulation'
-import { SolowGrowthModel } from '@economic-models/models'
-
-const model = new SolowGrowthModel(params)
-const engine = new SimulationEngine(model)
-
-const result = await engine.simulate({
-  horizon: 100,
-  shocks: [{ period: 10, variable: 'technology', magnitude: 0.05 }]
-})
-```
-
-## API Stability
-
-⚠️ **Alpha** - API under active development.
+- Consider Numba for hot loops
+- Keep it simple first
