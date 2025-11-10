@@ -8,7 +8,9 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "bash scripts/dev.sh",
+    "dev:setup": "uv pip install -e . && pnpm install && pnpm run build",
+    "dev:frontend": "turbo run dev",
     "build": "turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
