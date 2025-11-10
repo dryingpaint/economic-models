@@ -13,11 +13,10 @@
 ## Setup
 
 ```bash
-git clone <repo-url>
-cd economic-models
 npm install
 npm run build
 npm run test  # Should pass
+source .venv/bin/activate
 ```
 
 ## Workflow

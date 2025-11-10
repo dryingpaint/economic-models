@@ -57,18 +57,24 @@ economic-models/
 git clone <repository-url>
 cd economic-models
 
-# Install Python dependencies
-uv pip install -e .
+# Start everything with one command!
+pnpm run dev
+```
 
-# Install TypeScript dependencies
-pnpm install && pnpm run build
+This will:
+- Install all Python dependencies (via `uv`)
+- Install all TypeScript dependencies (via `pnpm`)
+- Build all TypeScript packages
+- Start the FastAPI backend at http://localhost:8000
+- Start the Next.js frontend at http://localhost:3000
 
-# Start development
-# Terminal 1: Python API
-uvicorn apps.api.src.main:app --reload  # http://localhost:8000
+**Alternative commands:**
+```bash
+# Just run setup without starting servers
+pnpm run dev:setup
 
-# Terminal 2: Next.js frontend
-cd apps/web && pnpm run dev  # http://localhost:3000
+# Start frontend dev servers only (after setup)
+pnpm run dev:frontend
 ```
 
 ### Making Changes
